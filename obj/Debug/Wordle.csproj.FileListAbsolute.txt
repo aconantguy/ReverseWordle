@@ -1,0 +1,12 @@
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\bin\Debug\Wordle.exe.config
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\bin\Debug\Wordle.exe
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\bin\Debug\Wordle.pdb
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.csproj.AssemblyReference.cache
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.csproj.SuggestedBindingRedirects.cache
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.Form1.resources
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.Form2.resources
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.Properties.Resources.resources
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.csproj.GenerateResource.cache
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.csproj.CoreCompileInputs.cache
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.exe
+C:\Users\firen\Documents\School\Intro to Programming\Wordle\obj\Debug\Wordle.pdb

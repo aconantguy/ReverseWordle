@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "9m1sYBkjb+hxqKmRcfCKzStziYJHA8PBhscyRIEQLU1v5YOjCTMOujeavsBJv7Qm46/zPKnFSoR7xkTSa6JnFA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Aguy\\Documents\\Visual Studio 2022\\Projects\\ReverseWordle\\ReverseWordle.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Aguy\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Aguy\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
