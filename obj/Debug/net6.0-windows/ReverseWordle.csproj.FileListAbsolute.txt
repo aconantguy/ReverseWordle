@@ -21,6 +21,3 @@ C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\obj\Debug\net6
 C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\obj\Debug\net6.0-windows\ReverseWordle.pdb
 C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\obj\Debug\net6.0-windows\ReverseWordle.genruntimeconfig.cache
 C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\obj\Debug\net6.0-windows\ref\ReverseWordle.dll
-C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\bin\Debug\net6.0-windows\Resources\green.png
-C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\bin\Debug\net6.0-windows\Resources\grey.png
-C:\Users\Aguy\Documents\Visual Studio 2022\Projects\ReverseWordle\bin\Debug\net6.0-windows\Resources\yello.png

@@ -83,11 +83,13 @@ namespace ReverseWordle
             if (guesses == 0) standardGameOver();
             else if (guesses > 0)
             {
-                checkEarlyWin();
-                await Task.Run(() => { updateLists(); });
-                await Task.Run(() => { words = pruneDict(); });
-                newGuess();
-                guesses--;
+                if (!checkEarlyWin())
+                {
+                    await Task.Run(() => { updateLists(); });
+                    await Task.Run(() => { words = pruneDict(); });
+                    newGuess();
+                    guesses--;
+                }
             }
         }
 
@@ -238,6 +240,24 @@ namespace ReverseWordle
                 bg6c.BackgroundImage = Properties.Resources.green;
                 bg6d.BackgroundImage = Properties.Resources.green;
                 bg6e.BackgroundImage = Properties.Resources.green;
+
+                txtChar6a.BackgroundImage = Properties.Resources.green;
+                txtChar6b.BackgroundImage = Properties.Resources.green;
+                txtChar6c.BackgroundImage = Properties.Resources.green;
+                txtChar6d.BackgroundImage = Properties.Resources.green;
+                txtChar6e.BackgroundImage = Properties.Resources.green;
+
+                txtChar6a.Enabled = false;
+                txtChar6b.Enabled = false;
+                txtChar6c.Enabled = false;
+                txtChar6d.Enabled = false;
+                txtChar6e.Enabled = false;
+
+                txtChar6a.Enabled = true;
+                txtChar6b.Enabled = true;
+                txtChar6c.Enabled = true;
+                txtChar6d.Enabled = true;
+                txtChar6e.Enabled = true;
                 standardGameOver();
             }
             else
@@ -660,7 +680,7 @@ namespace ReverseWordle
             else txtInstructions.Text = "I lost! There were " + words.Count.ToString() + " other possible words.";
         }
 
-        internal void checkEarlyWin()
+        internal bool checkEarlyWin()
         {
             bool win = false;
             switch (guesses)
@@ -709,10 +729,12 @@ namespace ReverseWordle
 
             if (win)
             {
-                txtInstructions.Text = "Yay! I win!\n" +
+                txtInstructions.Text = "Yay! I win! " +
                     "There were " + (words.Count - 1).ToString() + " other possible words.";
                 btnGuess.Enabled = false;
             }
+
+            return win;
         }
 
         private void changer(PictureBox bg, Label txt)
