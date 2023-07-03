@@ -29,12 +29,13 @@ namespace ReverseWordle
         protected List<string> yellowLetters = new List<string>();
         protected List<int> yellowPlaces = new List<int>();
         protected string[] greenLetters = new string[5];
-        protected string[] GuessArray = new string[5];
         protected List<string> words = new List<string>();
+        public int streak;
 
-        public MainWindow()
+        public MainWindow(int streak = 0)
         {
             InitializeComponent();
+            this.streak = streak;
             Startup();
         }
 
@@ -95,7 +96,10 @@ namespace ReverseWordle
 
         private void btnNewGame_Click(object sender, EventArgs e)
         {
-            Application.Restart();
+            MainWindow mainWindow = new MainWindow(streak);
+            this.Hide();
+            mainWindow.FormClosed += (s, args) => this.Close();
+            mainWindow.Show();
         }
 
         private List<string> pruneDict()
@@ -183,87 +187,95 @@ namespace ReverseWordle
         {
             // Choose new word
             Random random = new Random();
-            int i = random.Next(0, (words.Count - 1));
-            guess = words[i];
-
-            // Split guess into letters
-            switch (guesses)
+            try
             {
-                case 6:
-                    txtChar1a.Text = guess[0].ToString();
-                    txtChar1b.Text = guess[1].ToString();
-                    txtChar1c.Text = guess[2].ToString();
-                    txtChar1d.Text = guess[3].ToString();
-                    txtChar1e.Text = guess[4].ToString();
-                    break;
-                case 5:
-                    txtChar2a.Text = guess[0].ToString();
-                    txtChar2b.Text = guess[1].ToString();
-                    txtChar2c.Text = guess[2].ToString();
-                    txtChar2d.Text = guess[3].ToString();
-                    txtChar2e.Text = guess[4].ToString();
-                    break;
-                case 4:
-                    txtChar3a.Text = guess[0].ToString();
-                    txtChar3b.Text = guess[1].ToString();
-                    txtChar3c.Text = guess[2].ToString();
-                    txtChar3d.Text = guess[3].ToString();
-                    txtChar3e.Text = guess[4].ToString();
-                    break;
-                case 3:
-                    txtChar4a.Text = guess[0].ToString();
-                    txtChar4b.Text = guess[1].ToString();
-                    txtChar4c.Text = guess[2].ToString();
-                    txtChar4d.Text = guess[3].ToString();
-                    txtChar4e.Text = guess[4].ToString();
-                    break;
-                case 2:
-                    txtChar5a.Text = guess[0].ToString();
-                    txtChar5b.Text = guess[1].ToString();
-                    txtChar5c.Text = guess[2].ToString();
-                    txtChar5d.Text = guess[3].ToString();
-                    txtChar5e.Text = guess[4].ToString();
-                    break;
-                case 1:
-                    txtChar6a.Text = guess[0].ToString();
-                    txtChar6b.Text = guess[1].ToString();
-                    txtChar6c.Text = guess[2].ToString();
-                    txtChar6d.Text = guess[3].ToString();
-                    txtChar6e.Text = guess[4].ToString();
-                    break;
+                int i = random.Next(0, (words.Count) - 1);
+                guess = words[i];
+
+                // Split guess into letters
+                switch (guesses)
+                {
+                    case 6:
+                        txtChar1a.Text = guess[0].ToString();
+                        txtChar1b.Text = guess[1].ToString();
+                        txtChar1c.Text = guess[2].ToString();
+                        txtChar1d.Text = guess[3].ToString();
+                        txtChar1e.Text = guess[4].ToString();
+                        break;
+                    case 5:
+                        txtChar2a.Text = guess[0].ToString();
+                        txtChar2b.Text = guess[1].ToString();
+                        txtChar2c.Text = guess[2].ToString();
+                        txtChar2d.Text = guess[3].ToString();
+                        txtChar2e.Text = guess[4].ToString();
+                        break;
+                    case 4:
+                        txtChar3a.Text = guess[0].ToString();
+                        txtChar3b.Text = guess[1].ToString();
+                        txtChar3c.Text = guess[2].ToString();
+                        txtChar3d.Text = guess[3].ToString();
+                        txtChar3e.Text = guess[4].ToString();
+                        break;
+                    case 3:
+                        txtChar4a.Text = guess[0].ToString();
+                        txtChar4b.Text = guess[1].ToString();
+                        txtChar4c.Text = guess[2].ToString();
+                        txtChar4d.Text = guess[3].ToString();
+                        txtChar4e.Text = guess[4].ToString();
+                        break;
+                    case 2:
+                        txtChar5a.Text = guess[0].ToString();
+                        txtChar5b.Text = guess[1].ToString();
+                        txtChar5c.Text = guess[2].ToString();
+                        txtChar5d.Text = guess[3].ToString();
+                        txtChar5e.Text = guess[4].ToString();
+                        break;
+                    case 1:
+                        txtChar6a.Text = guess[0].ToString();
+                        txtChar6b.Text = guess[1].ToString();
+                        txtChar6c.Text = guess[2].ToString();
+                        txtChar6d.Text = guess[3].ToString();
+                        txtChar6e.Text = guess[4].ToString();
+                        break;
+                }
+
+                if (guesses == 1 && words.Count == 1)
+                {
+                    bg6a.BackgroundImage = Properties.Resources.green;
+                    bg6b.BackgroundImage = Properties.Resources.green;
+                    bg6c.BackgroundImage = Properties.Resources.green;
+                    bg6d.BackgroundImage = Properties.Resources.green;
+                    bg6e.BackgroundImage = Properties.Resources.green;
+
+                    txtChar6a.BackgroundImage = Properties.Resources.green;
+                    txtChar6b.BackgroundImage = Properties.Resources.green;
+                    txtChar6c.BackgroundImage = Properties.Resources.green;
+                    txtChar6d.BackgroundImage = Properties.Resources.green;
+                    txtChar6e.BackgroundImage = Properties.Resources.green;
+
+                    txtChar6a.Enabled = false;
+                    txtChar6b.Enabled = false;
+                    txtChar6c.Enabled = false;
+                    txtChar6d.Enabled = false;
+                    txtChar6e.Enabled = false;
+
+                    txtChar6a.Enabled = true;
+                    txtChar6b.Enabled = true;
+                    txtChar6c.Enabled = true;
+                    txtChar6d.Enabled = true;
+                    txtChar6e.Enabled = true;
+                    standardGameOver();
+                }
+                else
+                {
+                    updateColors();
+                    txtInstructions.Text = words.Count.ToString() + " possible words remaining";
+                }
             }
-
-            if (guesses == 1 && words.Count == 1)
+            catch
             {
-                bg6a.BackgroundImage = Properties.Resources.green;
-                bg6b.BackgroundImage = Properties.Resources.green;
-                bg6c.BackgroundImage = Properties.Resources.green;
-                bg6d.BackgroundImage = Properties.Resources.green;
-                bg6e.BackgroundImage = Properties.Resources.green;
-
-                txtChar6a.BackgroundImage = Properties.Resources.green;
-                txtChar6b.BackgroundImage = Properties.Resources.green;
-                txtChar6c.BackgroundImage = Properties.Resources.green;
-                txtChar6d.BackgroundImage = Properties.Resources.green;
-                txtChar6e.BackgroundImage = Properties.Resources.green;
-
-                txtChar6a.Enabled = false;
-                txtChar6b.Enabled = false;
-                txtChar6c.Enabled = false;
-                txtChar6d.Enabled = false;
-                txtChar6e.Enabled = false;
-
-                txtChar6a.Enabled = true;
-                txtChar6b.Enabled = true;
-                txtChar6c.Enabled = true;
-                txtChar6d.Enabled = true;
-                txtChar6e.Enabled = true;
-                standardGameOver();
-            }
-            else
-            {
-                updateColors();
-                txtInstructions.Text = words.Count.ToString() + " possible words remaining";
+                btnGuess.Enabled = false;
+                txtInstructions.Text = "There are no possible remaining words.";
             }
         }
 
@@ -277,38 +289,38 @@ namespace ReverseWordle
             {
                 case 5:
                     if (ImageEquals(bg1a.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1a.Text);
-                    else if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1b.Text);
-                    else if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1c.Text);
-                    else if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1d.Text);
-                    else if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1e.Text);
+                    if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1b.Text);
+                    if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1c.Text);
+                    if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1d.Text);
+                    if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar1e.Text);
                     break;
                 case 4:
                     if (ImageEquals(bg2a.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2a.Text);
-                    else if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2b.Text);
-                    else if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2c.Text);
-                    else if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2d.Text);
-                    else if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2e.Text);
+                    if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2b.Text);
+                    if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2c.Text);
+                    if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2d.Text);
+                    if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar2e.Text);
                     break;
                 case 3:
                     if (ImageEquals(bg3a.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3a.Text);
-                    else if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3b.Text);
-                    else if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3c.Text);
-                    else if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3d.Text);
-                    else if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3e.Text);
+                    if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3b.Text);
+                    if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3c.Text);
+                    if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3d.Text);
+                    if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar3e.Text);
                     break;
                 case 2:
                     if (ImageEquals(bg4a.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4a.Text);
-                    else if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4b.Text);
-                    else if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4c.Text);
-                    else if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4d.Text);
-                    else if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4e.Text);
+                    if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4b.Text);
+                    if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4c.Text);
+                    if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4d.Text);
+                    if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar4e.Text);
                     break;
                 case 1:
                     if (ImageEquals(bg5a.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5a.Text);
-                    else if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5b.Text);
-                    else if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5c.Text);
-                    else if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5d.Text);
-                    else if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5e.Text);
+                    if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5b.Text);
+                    if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5c.Text);
+                    if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5d.Text);
+                    if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.grey)) greyLetters.Add(txtChar5e.Text);
                     break;
             }
 
@@ -321,22 +333,22 @@ namespace ReverseWordle
                         yellowLetters.Add(txtChar1a.Text);
                         yellowPlaces.Add(0);
                     }
-                    else if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar1b.Text);
                         yellowPlaces.Add(1);
                     }
-                    else if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar1c.Text);
                         yellowPlaces.Add(2);
                     }
-                    else if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar1d.Text);
                         yellowPlaces.Add(3);
                     }
-                    else if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar1e.Text);
                         yellowPlaces.Add(4);
@@ -348,22 +360,22 @@ namespace ReverseWordle
                         yellowLetters.Add(txtChar2a.Text);
                         yellowPlaces.Add(0);
                     }
-                    else if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar2b.Text);
                         yellowPlaces.Add(1);
                     }
-                    else if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar2c.Text);
                         yellowPlaces.Add(2);
                     }
-                    else if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar2d.Text);
                         yellowPlaces.Add(3);
                     }
-                    else if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar2e.Text);
                         yellowPlaces.Add(4);
@@ -375,22 +387,22 @@ namespace ReverseWordle
                         yellowLetters.Add(txtChar3a.Text);
                         yellowPlaces.Add(0);
                     }
-                    else if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar3b.Text);
                         yellowPlaces.Add(1);
                     }
-                    else if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar3c.Text);
                         yellowPlaces.Add(2);
                     }
-                    else if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar3d.Text);
                         yellowPlaces.Add(3);
                     }
-                    else if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar3e.Text);
                         yellowPlaces.Add(4);
@@ -402,22 +414,22 @@ namespace ReverseWordle
                         yellowLetters.Add(txtChar4a.Text);
                         yellowPlaces.Add(0);
                     }
-                    else if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar4b.Text);
                         yellowPlaces.Add(1);
                     }
-                    else if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar4c.Text);
                         yellowPlaces.Add(2);
                     }
-                    else if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar4d.Text);
                         yellowPlaces.Add(3);
                     }
-                    else if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar4e.Text);
                         yellowPlaces.Add(4);
@@ -429,22 +441,22 @@ namespace ReverseWordle
                         yellowLetters.Add(txtChar5a.Text);
                         yellowPlaces.Add(0);
                     }
-                    else if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar5b.Text);
                         yellowPlaces.Add(1);
                     }
-                    else if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar5c.Text);
                         yellowPlaces.Add(2);
                     }
-                    else if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar5d.Text);
                         yellowPlaces.Add(3);
                     }
-                    else if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.yello))
+                    if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.yello))
                     {
                         yellowLetters.Add(txtChar5e.Text);
                         yellowPlaces.Add(4);
@@ -456,39 +468,39 @@ namespace ReverseWordle
             switch (guesses)
             {
                 case 5:
-                    if (ImageEquals(bg1a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = txtChar1a.Text;
-                    else if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = txtChar1b.Text;
-                    else if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = txtChar1c.Text;
-                    else if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = txtChar1d.Text;
-                    else if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = txtChar1e.Text;
+                    if (ImageEquals(bg1a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = guess[0].ToString();
+                    if (ImageEquals(bg1b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = guess[1].ToString();
+                    if (ImageEquals(bg1c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = guess[2].ToString();
+                    if (ImageEquals(bg1d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = guess[3].ToString();
+                    if (ImageEquals(bg1e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = guess[4].ToString();
                     break;
                 case 4:
-                    if (ImageEquals(bg2a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = txtChar2a.Text;
-                    else if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = txtChar2b.Text;
-                    else if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = txtChar2c.Text;
-                    else if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = txtChar2d.Text;
-                    else if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = txtChar2e.Text;
+                    if (ImageEquals(bg2a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = guess[0].ToString();
+                    if (ImageEquals(bg2b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = guess[1].ToString();
+                    if (ImageEquals(bg2c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = guess[2].ToString();
+                    if (ImageEquals(bg2d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = guess[3].ToString();
+                    if (ImageEquals(bg2e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = guess[4].ToString();
                     break;
                 case 3:
-                    if (ImageEquals(bg3a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = txtChar3a.Text;
-                    else if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = txtChar3b.Text;
-                    else if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = txtChar3c.Text;
-                    else if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = txtChar3d.Text;
-                    else if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = txtChar3e.Text;
+                    if (ImageEquals(bg3a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = guess[0].ToString();
+                    if (ImageEquals(bg3b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = guess[1].ToString();
+                    if (ImageEquals(bg3c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = guess[2].ToString();
+                    if (ImageEquals(bg3d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = guess[3].ToString();
+                    if (ImageEquals(bg3e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = guess[4].ToString();
                     break;
                 case 2:
-                    if (ImageEquals(bg4a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = txtChar4a.Text;
-                    else if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = txtChar4b.Text;
-                    else if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = txtChar4c.Text;
-                    else if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = txtChar4d.Text;
-                    else if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = txtChar4e.Text;
+                    if (ImageEquals(bg4a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = guess[0].ToString();
+                    if (ImageEquals(bg4b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = guess[1].ToString();
+                    if (ImageEquals(bg4c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = guess[2].ToString();
+                    if (ImageEquals(bg4d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = guess[3].ToString();
+                    if (ImageEquals(bg4e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = guess[4].ToString();
                     break;
                 case 1:
-                    if (ImageEquals(bg5a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = txtChar5a.Text;
-                    else if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = txtChar5b.Text;
-                    else if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = txtChar5c.Text;
-                    else if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = txtChar5d.Text;
-                    else if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = txtChar5e.Text;
+                    if (ImageEquals(bg5a.BackgroundImage, Properties.Resources.green)) greenLetters[0] = guess[0].ToString();
+                    if (ImageEquals(bg5b.BackgroundImage, Properties.Resources.green)) greenLetters[1] = guess[1].ToString();
+                    if (ImageEquals(bg5c.BackgroundImage, Properties.Resources.green)) greenLetters[2] = guess[2].ToString();
+                    if (ImageEquals(bg5d.BackgroundImage, Properties.Resources.green)) greenLetters[3] = guess[3].ToString();
+                    if (ImageEquals(bg5e.BackgroundImage, Properties.Resources.green)) greenLetters[4] = guess[4].ToString();
                     break;
             }
         }
@@ -651,6 +663,7 @@ namespace ReverseWordle
                 if (word.Length == 5 && !word.Contains(" ")) words.Add(word);
             }
             txtInstructions.Text = words.Count.ToString() + " possible words remaining";
+            txtStreak.Text = streak.ToString();
             guesses = 6;
             newGuess();
             guesses--;
@@ -676,8 +689,14 @@ namespace ReverseWordle
                 txtChar6c.Enabled = false;
                 txtChar6d.Enabled = false;
                 txtChar6e.Enabled = false;
+                streak++;
+                txtStreak.Text = streak.ToString();
             }
-            else txtInstructions.Text = "I lost! There were " + words.Count.ToString() + " other possible words.";
+            else
+            {
+                txtInstructions.Text = "I lost! There were " + words.Count.ToString() + " possible words.";
+                streak = 0;
+            }
         }
 
         internal bool checkEarlyWin()
@@ -730,8 +749,10 @@ namespace ReverseWordle
             if (win)
             {
                 txtInstructions.Text = "Yay! I win! " +
-                    "There were " + (words.Count - 1).ToString() + " other possible words.";
+                    "There were " + (words.Count - 1).ToString() + " possible words.";
                 btnGuess.Enabled = false;
+                streak++;
+                txtStreak.Text = streak.ToString();
             }
 
             return win;
@@ -760,15 +781,17 @@ namespace ReverseWordle
         {
             using (MemoryStream ms1 = new MemoryStream())
             using (MemoryStream ms2 = new MemoryStream())
-            {
-                image1.Save(ms1, image1.RawFormat);
-                image2.Save(ms2, image2.RawFormat);
+                if (image1 != null)
+                {
+                    image1.Save(ms1, image1.RawFormat);
+                    image2.Save(ms2, image2.RawFormat);
 
-                byte[] imageBytes1 = ms1.ToArray();
-                byte[] imageBytes2 = ms2.ToArray();
+                    byte[] imageBytes1 = ms1.ToArray();
+                    byte[] imageBytes2 = ms2.ToArray();
 
-                return imageBytes1.SequenceEqual(imageBytes2);
-            }
+                    return imageBytes1.SequenceEqual(imageBytes2);
+                }
+                else return false;
         }
 
 

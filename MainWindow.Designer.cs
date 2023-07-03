@@ -92,6 +92,8 @@
             bg1b = new System.Windows.Forms.PictureBox();
             bg1a = new System.Windows.Forms.PictureBox();
             label6 = new System.Windows.Forms.Label();
+            LblStreak = new System.Windows.Forms.Label();
+            txtStreak = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)bg6a).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bg6b).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bg6c).BeginInit();
@@ -824,11 +826,30 @@
             label6.Size = new System.Drawing.Size(0, 36);
             label6.TabIndex = 68;
             // 
+            // LblStreak
+            // 
+            LblStreak.AutoSize = true;
+            LblStreak.Location = new System.Drawing.Point(173, 530);
+            LblStreak.Name = "LblStreak";
+            LblStreak.Size = new System.Drawing.Size(53, 20);
+            LblStreak.TabIndex = 79;
+            LblStreak.Text = "Streak:";
+            // 
+            // txtStreak
+            // 
+            txtStreak.AutoSize = true;
+            txtStreak.Location = new System.Drawing.Point(187, 550);
+            txtStreak.Name = "txtStreak";
+            txtStreak.Size = new System.Drawing.Size(0, 20);
+            txtStreak.TabIndex = 80;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(408, 588);
+            Controls.Add(txtStreak);
+            Controls.Add(LblStreak);
             Controls.Add(txtChar1b);
             Controls.Add(txtChar1e);
             Controls.Add(txtChar1c);
@@ -996,5 +1017,7 @@
         internal System.Windows.Forms.PictureBox bg1b;
         internal System.Windows.Forms.PictureBox bg1a;
         internal System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LblStreak;
+        private System.Windows.Forms.Label txtStreak;
     }
 }
