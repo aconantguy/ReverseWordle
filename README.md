@@ -5,5 +5,4 @@ In just 6 guesses, it's surprising how much a computer can narrow down a 1500+ w
 # Development Notes
 
 * This program requires .NET 6.0 or greater
-* As of right now, the computer is not incredibly smart but it's fairly capable for this game
 * The Dictionary was pulled from this source: https://github.com/manassharma07/English-Dictionary-CSV
